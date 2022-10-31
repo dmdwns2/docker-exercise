@@ -9,6 +9,9 @@ public class HospitalParser implements Parser<Hospital>{
 
     @Override
     public Hospital parse(String str){
+/*        //문자열 맨끝 , 하나 제거 파싱문제 해결하려고 추가했으나 딱히 의미는 없음
+        str = str.substring(0, str.length() - 1);*/
+
         String[] row = str.split("\",\"");
         System.out.println(Arrays.toString(row));
         Hospital hospital = new Hospital();
@@ -23,6 +26,7 @@ public class HospitalParser implements Parser<Hospital>{
         int month = Integer.parseInt(row[5].substring(4,6));
         int day = Integer.parseInt(row[5].substring(6,8));
         hospital.setLicenseDate(LocalDateTime.of(year,month,day,0,0,0));
+
 
 
         hospital.setBusinessStatus(Integer.parseInt(row[7]));
