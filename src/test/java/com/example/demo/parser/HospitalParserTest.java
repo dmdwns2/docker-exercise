@@ -1,5 +1,6 @@
 package com.example.demo.parser;
 
+import com.example.demo.Dao.HospitalDao;
 import com.example.demo.domain.Hospital;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,9 +22,20 @@ class HospitalParserTest {
     @Autowired
     ReadLineContext<Hospital> hospitalReadLineContext;
 
+    @Autowired
+    HospitalDao hospitalDao;
+
+    @Test
+    @DisplayName("insert가 잘 되는지")
+    void add(){
+        HospitalParser hp = new HospitalParser();
+        Hospital hospital = hp.parse(line1);
+        hospitalDao.add(hospital);
+    }
+
     @Test
     @DisplayName("10만건 이상 데이터가 파싱 되는지")
-    void name() throws IOException {
+    void oneHundreadThousandRows() throws IOException {
 
         String filename = "/Users/eungjun/Downloads/fulldata_01_01_02_P_hospital4.csv";
         List<Hospital> hospitalList = hospitalReadLineContext.readByLine(filename);

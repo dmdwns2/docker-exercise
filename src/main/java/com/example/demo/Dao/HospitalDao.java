@@ -2,13 +2,21 @@ package com.example.demo.Dao;
 
 import com.example.demo.domain.Hospital;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
+@Component
 public class HospitalDao {
 
     private final JdbcTemplate jdbcTemplate;
 
     public HospitalDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+
+    public int getCount(){
+        String sql = "select count(id) from nation_wide_hospitals;";
+        return this.jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
     public void add(Hospital hospital) {
