@@ -25,6 +25,9 @@ class HospitalParserTest {
     @Autowired
     HospitalDao hospitalDao;
 
+    @Autowired
+    HospitalService hospitalService;
+
     @Test
     @DisplayName("Hospital이 insert,select 잘 되는지")
     void addAndGet() {
@@ -46,21 +49,18 @@ class HospitalParserTest {
 
 
     }
-
-
-
-
     @Test
     @DisplayName("10만건 이상 데이터가 파싱 되는지")
     void oneHundreadThousandRows() throws IOException {
+        // 서버환경에서 build할 때 문제가 생길 수 있습니다.
 
+        // 어디에서든지 실행할 수 있게 짜는 것이 목표.
+        hospitalDao.deleteAll();
         String filename = "/Users/eungjun/Downloads/fulldata_01_01_02_P_hospital4.csv";
-        List<Hospital> hospitalList = hospitalReadLineContext.readByLine(filename);
-        assertTrue(hospitalList.size()> 1000);
-        assertTrue(hospitalList.size()> 10000);
-        for (int i = 0; i < 10; i++){
-            System.out.println(hospitalList.get(i).getHospitalName());
-        }
+        int cnt = this.hospitalService.insertLargeVolumeHospitalData(filename);
+        assertTrue(cnt > 1000);
+        assertTrue(cnt > 10000);
+        System.out.printf("파싱된 데이터 개수:%d %n", cnt);
     }
 
     @Test
